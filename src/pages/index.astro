@@ -1,0 +1,55 @@
+---
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Findings from '../components/Findings.astro';
+import Rules from '../components/Rules.astro';
+import Install from '../components/Install.astro';
+import Privacy from '../components/Privacy.astro';
+import EarlyAccess from '../components/EarlyAccess.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SessionGuard — see what your AI coding agent actually did</title>
+    <meta name="description" content="Local audit of Claude Code session transcripts. Leaked secrets, risky shell commands, unsafe file edits, hook bypasses. Nothing uploaded." />
+    <meta property="og:title" content="SessionGuard — see what your AI coding agent actually did" />
+    <meta property="og:description" content="15 sessions scanned. 6,883 events. 6 real findings in 350ms. Nothing uploaded." />
+    <meta property="og:image" content="https://sessionguard.dev/og-image.svg" />
+    <meta property="og:url" content="https://sessionguard.dev" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SessionGuard — see what your AI coding agent actually did" />
+    <meta name="twitter:description" content="15 sessions scanned. 6,883 events. 6 real findings in 350ms. Nothing uploaded." />
+    <meta name="twitter:image" content="https://sessionguard.dev/og-image.svg" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0a'/><text y='24' x='4' font-size='22' fill='%2322c55e'>S</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="max-w-3xl mx-auto px-6">
+      <Nav />
+      <main>
+        <Hero />
+        <Findings />
+        <Rules />
+        <Install />
+        <Privacy />
+        <EarlyAccess />
+      </main>
+      <Footer />
+    </div>
+  </body>
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll('section').forEach(s => observer.observe(s));
+  </script>
+</html>

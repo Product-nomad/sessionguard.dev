@@ -1,0 +1,60 @@
+---
+---
+<section id="install" class="py-16 border-t border-line">
+  <p class="font-mono text-xs text-accent tracking-widest uppercase mb-3">03 /</p>
+  <h2 class="font-mono text-xl font-semibold mb-8" style="color: #e8e8e8;">Install</h2>
+
+  <div class="rounded-lg border border-line bg-surface overflow-hidden mb-8">
+    <div class="flex items-center gap-2 px-4 py-3 border-b border-line">
+      <span class="w-3 h-3 rounded-full bg-danger opacity-70"></span>
+      <span class="w-3 h-3 rounded-full bg-warning opacity-70"></span>
+      <span class="w-3 h-3 rounded-full bg-accent opacity-70"></span>
+      <span class="font-mono text-xs text-muted ml-2">bash</span>
+      <button
+        id="copy-all"
+        class="ml-auto font-mono text-xs text-muted hover:text-accent transition-colors duration-150 flex items-center gap-1.5"
+        aria-label="Copy all commands"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <span id="copy-all-label">copy</span>
+      </button>
+    </div>
+    <pre class="font-mono text-sm p-6 overflow-x-auto leading-loose"><code><span class="text-muted"># Install</span>
+<span class="text-muted">$ </span><span style="color: #e8e8e8;">npm install -g @sessionguard/cli</span>
+
+<span class="text-muted"># Run your first audit</span>
+<span class="text-muted">$ </span><span style="color: #e8e8e8;">sessionguard audit</span>
+
+<span class="text-muted"># Token usage by project</span>
+<span class="text-muted">$ </span><span style="color: #e8e8e8;">sessionguard report --since 7d</span>
+
+<span class="text-muted"># Only show critical and high</span>
+<span class="text-muted">$ </span><span style="color: #e8e8e8;">sessionguard audit --min high</span></code></pre>
+  </div>
+
+  <div class="font-mono text-xs text-muted leading-relaxed space-y-1">
+    <p>Requires Node 22+. Reads <code class="text-accent">~/.claude/projects/**/*.jsonl</code> by default.</p>
+    <p>Pass explicit paths to scan specific sessions.</p>
+    <p>Exit code reflects highest severity: <code class="text-danger">30</code> (critical), <code class="text-warning">20</code> (high), <code class="text-muted">10</code> (medium).</p>
+  </div>
+</section>
+
+<script>
+  const btn = document.getElementById('copy-all');
+  const label = document.getElementById('copy-all-label');
+  const commands = `npm install -g @sessionguard/cli
+sessionguard audit
+sessionguard report --since 7d
+sessionguard audit --min high`;
+
+  btn?.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(commands);
+    if (label) {
+      label.textContent = 'copied!';
+      setTimeout(() => { label.textContent = 'copy'; }, 1800);
+    }
+  });
+</script>

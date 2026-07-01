@@ -1,0 +1,104 @@
+---
+const features = [
+  'Team dashboard — shared findings across your engineering org',
+  'Compliance report — map findings to EU AI Act obligations',
+  'Cursor + Windsurf adapters — same audit across all agents',
+  'Dollar-cost estimation — token counts with current pricing',
+];
+---
+<section id="early-access" class="py-16 border-t border-line">
+  <p class="font-mono text-xs text-accent tracking-widest uppercase mb-3">05 /</p>
+  <h2 class="font-mono text-xl font-semibold mb-6" style="color: #e8e8e8;">Early access</h2>
+
+  <p class="text-sm text-muted mb-6 leading-relaxed">SessionGuard Pro is in development.</p>
+
+  <p class="font-mono text-xs text-muted uppercase tracking-wider mb-3">What's coming:</p>
+  <ul class="mb-8 space-y-2">
+    {features.map(f => (
+      <li class="font-mono text-sm text-muted flex gap-3">
+        <span class="text-accent flex-shrink-0">→</span>
+        <span>{f}</span>
+      </li>
+    ))}
+  </ul>
+
+  <p class="text-sm text-muted mb-2 leading-relaxed">
+    Leave your email and we'll reach out when Pro is ready.
+  </p>
+  <p class="text-sm text-accent font-mono mb-8">
+    Founding members get 50% off for life.
+  </p>
+
+  <form
+    id="waitlist-form"
+    action="/api/waitlist"
+    method="POST"
+    class="flex flex-col sm:flex-row gap-3 max-w-md"
+    novalidate
+  >
+    <input
+      type="email"
+      name="email"
+      placeholder="you@example.com"
+      required
+      autocomplete="email"
+      class="flex-1 font-mono text-sm px-4 py-3 rounded border border-line bg-surface text-primary placeholder:text-muted focus:outline-none focus:border-accent transition-colors duration-150"
+      style="color: #e8e8e8;"
+    />
+    <button
+      type="submit"
+      class="font-mono text-sm px-5 py-3 rounded bg-accent text-black font-semibold hover:bg-green-400 transition-colors duration-150 whitespace-nowrap"
+    >
+      Join early access
+    </button>
+  </form>
+
+  <p id="form-success" class="mt-4 font-mono text-sm text-accent hidden">
+    You're on the list. We'll be in touch.
+  </p>
+  <p id="form-error" class="mt-4 font-mono text-sm text-danger hidden">
+    Something went wrong. Email <a href="mailto:simon@sessionguard.dev" class="underline">simon@sessionguard.dev</a>
+  </p>
+</section>
+
+<script>
+  // Show success if redirected back with ?success=1 (no-JS fallback)
+  if (new URLSearchParams(location.search).get('success') === '1') {
+    const form = document.getElementById('waitlist-form');
+    const success = document.getElementById('form-success');
+    if (form) form.style.display = 'none';
+    if (success) success.classList.remove('hidden');
+    history.replaceState({}, '', location.pathname + '#early-access');
+  }
+
+  // JS-enhanced submission
+  document.getElementById('waitlist-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget as HTMLFormElement;
+    const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+    const successEl = document.getElementById('form-success');
+    const errorEl = document.getElementById('form-error');
+
+    btn.disabled = true;
+    btn.textContent = 'Joining…';
+
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form),
+      });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        successEl?.classList.remove('hidden');
+      } else {
+        throw new Error(String(res.status));
+      }
+    } catch {
+      errorEl?.classList.remove('hidden');
+      btn.disabled = false;
+      btn.textContent = 'Join early access';
+    }
+  });
+</script>

@@ -1,0 +1,6 @@
+name = "sessionguard-dev"
+compatibility_date = "2026-01-01"
+
+[[kv_namespaces]]
+binding = "WAITLIST"
+id = "YOUR_KV_NAMESPACE_ID"

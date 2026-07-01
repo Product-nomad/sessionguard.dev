@@ -1,0 +1,40 @@
+---
+const cards = [
+  {
+    title: 'Local only',
+    body: 'Reads files on your disk. Prints to stdout. Nothing leaves the box.',
+  },
+  {
+    title: 'No telemetry',
+    body: 'Zero network calls. No config to opt out of. Nothing phoned home.',
+  },
+  {
+    title: 'Open source',
+    body: 'MIT licence. Read every line at github.com/sessionguard/sessionguard',
+    link: 'https://github.com/sessionguard/sessionguard',
+    linkText: 'github.com/sessionguard/sessionguard',
+  },
+];
+---
+<section class="py-16 border-t border-line">
+  <p class="font-mono text-xs text-accent tracking-widest uppercase mb-3">04 /</p>
+  <h2 class="font-mono text-xl font-semibold mb-8" style="color: #e8e8e8;">Privacy</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    {cards.map(card => (
+      <div class="rounded-lg border border-line bg-surface p-6">
+        <p class="font-mono text-sm font-semibold text-accent mb-3">{card.title}</p>
+        <p class="text-sm text-muted leading-relaxed">
+          {card.link ? (
+            <>
+              {card.body.replace(card.linkText!, '')}{' '}
+              <a href={card.link} class="text-accent hover:underline" target="_blank" rel="noopener noreferrer">
+                {card.linkText}
+              </a>
+            </>
+          ) : card.body}
+        </p>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,40 @@
+---
+---
+<section class="py-16 border-t border-line">
+  <p class="font-mono text-xs text-accent tracking-widest uppercase mb-3">01 /</p>
+  <h2 class="font-mono text-xl font-semibold mb-8" style="color: #e8e8e8;">What it finds</h2>
+
+  <div class="rounded-lg border border-line bg-surface overflow-hidden mb-6">
+    <!-- Terminal chrome -->
+    <div class="flex items-center gap-2 px-4 py-3 border-b border-line">
+      <span class="w-3 h-3 rounded-full bg-danger opacity-70"></span>
+      <span class="w-3 h-3 rounded-full bg-warning opacity-70"></span>
+      <span class="w-3 h-3 rounded-full bg-accent opacity-70"></span>
+      <span class="font-mono text-xs text-muted ml-2">terminal</span>
+    </div>
+    <!-- Terminal body -->
+    <pre class="font-mono text-sm p-6 overflow-x-auto leading-relaxed"><code><span class="text-muted">$ </span><span style="color: #e8e8e8;">sessionguard audit --min high</span>
+
+<span class="text-muted">Scanned 15 sessions / 6,883 events — 6 findings (severity ≥ high)</span>
+<span class="text-danger">critical: 5</span>  <span class="text-warning">high: 1</span>
+
+<span class="text-danger">CRITICAL</span>  <span style="color: #e8e8e8;">rm -rf targeting root, home, or a system path</span>
+<span class="text-muted">2026-06-25T11:12:22Z</span>
+<span style="color: #aaaaaa;">Agent ran a shell command matching "rm -rf targeting root, home, or a</span>
+<span style="color: #aaaaaa;">system path". Review whether this was intended.</span>
+<span class="text-muted">→ rm -rf /home/vpc/brain/projects/dosh/config/sweep</span>
+
+<span class="text-warning">HIGH</span>      <span style="color: #e8e8e8;">Edit on .env file</span>
+<span class="text-muted">2026-06-24T13:51:41Z</span>
+<span style="color: #aaaaaa;">Agent used Edit to modify /home/vpc/brain/.env</span>
+<span style="color: #aaaaaa;">This target is a known sensitive path — confirm the change was intended.</span>
+<span class="text-muted">→ /home/vpc/brain/projects/dosh/.env</span></code></pre>
+  </div>
+
+  <p class="text-sm leading-relaxed text-muted max-w-xl">
+    These are real findings from the developer's own Claude Code sessions,
+    run on 2026-06-25. The <code class="font-mono text-xs bg-surface border border-line px-1 py-0.5 rounded">rm -rf</code> commands targeted a data directory inside
+    an active project. The <code class="font-mono text-xs bg-surface border border-line px-1 py-0.5 rounded">.env</code> edit modified a secrets file. Neither was
+    flagged by Claude Code itself.
+  </p>
+</section>

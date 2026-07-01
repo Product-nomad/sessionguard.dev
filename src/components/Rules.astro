@@ -1,0 +1,68 @@
+---
+const rules = [
+  {
+    rule: 'secrets.in-user-prompt',
+    severity: 'CRITICAL',
+    sevClass: 'text-danger',
+    what: 'API keys, tokens, private keys pasted into a prompt',
+  },
+  {
+    rule: 'secrets.in-tool-result',
+    severity: 'HIGH',
+    sevClass: 'text-warning',
+    what: 'Credentials appearing in tool output fed back to the model',
+  },
+  {
+    rule: 'bash.risky-command',
+    severity: 'CRITICAL–LOW',
+    sevClass: 'text-danger',
+    what: 'rm -rf /, curl | sh, dd to disk, chmod 777, force push, firewall flush',
+  },
+  {
+    rule: 'fs.sensitive-path-write',
+    severity: 'CRITICAL–MED',
+    sevClass: 'text-danger',
+    what: 'Writes to ~/.ssh, ~/.aws, .env, /etc/sudoers, shell rc files',
+  },
+  {
+    rule: 'git.hook-bypass',
+    severity: 'MEDIUM',
+    sevClass: 'text-muted',
+    what: '--no-verify, SKIP=, gpgsign=false — explicit safety rail bypass',
+  },
+];
+---
+<section class="py-16 border-t border-line">
+  <p class="font-mono text-xs text-accent tracking-widest uppercase mb-3">02 /</p>
+  <h2 class="font-mono text-xl font-semibold mb-8" style="color: #e8e8e8;">Detection rules</h2>
+
+  <div class="rounded-lg border border-line overflow-hidden mb-6">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b border-line bg-surface">
+          <th class="font-mono text-xs text-muted text-left px-4 py-3 font-medium tracking-wider uppercase">Rule</th>
+          <th class="font-mono text-xs text-muted text-left px-4 py-3 font-medium tracking-wider uppercase">Severity</th>
+          <th class="font-mono text-xs text-muted text-left px-4 py-3 font-medium tracking-wider uppercase hidden sm:table-cell">What it catches</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rules.map((r, i) => (
+          <tr class:list={['border-b border-line last:border-0', i % 2 === 1 ? 'bg-surface' : '']}>
+            <td class="px-4 py-4 align-top">
+              <code class="font-mono text-xs text-accent">{r.rule}</code>
+            </td>
+            <td class="px-4 py-4 align-top whitespace-nowrap">
+              <span class:list={['font-mono text-xs font-semibold', r.sevClass]}>{r.severity}</span>
+            </td>
+            <td class="px-4 py-4 align-top text-muted hidden sm:table-cell">{r.what}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="text-sm text-muted leading-relaxed">
+    Patterns are deliberately conservative. False positives erode trust.<br/>
+    Localhost curl calls are exempt. Interpreter eval is suppressed.
+  </p>
+</section>

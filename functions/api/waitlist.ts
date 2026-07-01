@@ -19,17 +19,19 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   }));
 
   // Send confirmation email via Resend
-  await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${ctx.env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: 'SessionGuard <noreply@waiting.sessionguard.dev>',
-      to: email,
-      subject: "You're on the SessionGuard early access list",
-      html: `<div style="background:#0a0a0a;color:#e8e8e8;font-family:'JetBrains Mono',monospace;padding:40px;max-width:560px;margin:0 auto">
+  const resendKey = ctx.env.RESEND_API_KEY;
+  if (resendKey) {
+    const emailRes = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${resendKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'SessionGuard <noreply@waiting.sessionguard.dev>',
+        to: email,
+        subject: "You're on the SessionGuard early access list",
+        html: `<div style="background:#0a0a0a;color:#e8e8e8;font-family:'JetBrains Mono',monospace;padding:40px;max-width:560px;margin:0 auto">
   <p style="color:#22c55e;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 24px">SessionGuard</p>
   <h1 style="font-size:20px;font-weight:600;margin:0 0 16px;color:#e8e8e8">You're on the list.</h1>
   <p style="font-size:14px;color:#888;line-height:1.6;margin:0 0 24px">
@@ -45,8 +47,14 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     — Simon · <a href="https://sessionguard.dev" style="color:#22c55e;text-decoration:none">sessionguard.dev</a>
   </p>
 </div>`,
-    }),
-  });
+      }),
+    });
+    if (!emailRes.ok) {
+      console.error('Resend error:', emailRes.status, await emailRes.text());
+    }
+  } else {
+    console.error('RESEND_API_KEY not set in environment');
+  }
 
   const accept = ctx.request.headers.get('accept') ?? '';
   if (accept.includes('application/json')) {

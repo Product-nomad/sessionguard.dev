@@ -24,11 +24,11 @@ const cards = [
     {cards.map(card => (
       <div class="rounded-lg border border-line bg-surface p-6">
         <p class="font-mono text-sm font-semibold text-accent mb-3">{card.title}</p>
-        <p class="text-sm text-muted leading-relaxed break-all">
+        <p class="text-sm text-muted leading-relaxed">
           {card.link ? (
             <>
               {card.body}{' '}
-              <a href={card.link} class="text-accent hover:underline break-all" target="_blank" rel="noopener noreferrer">
+              <a href={card.link} class="text-accent hover:underline" style="word-break: break-all;" target="_blank" rel="noopener noreferrer">
                 {card.linkText}
               </a>
             </>
